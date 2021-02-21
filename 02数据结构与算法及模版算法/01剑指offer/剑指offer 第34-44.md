@@ -1,9 +1,355 @@
 ﻿@[TOC]
-## 二叉搜索树的后续遍历序列
+## 二叉搜索树的后续遍历序列(易)
+
+> 输入一个整数数组，**判断该数组是不是某二叉搜索树的后序遍历**的结果。
+> 
+> 如果是则返回true，否则返回false。
+> 
+> 假设输入的数组的任意两个数字都互不相同。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210221201612961.png)
+
+```cpp
+class Solution {
+public:
+    vector<int> seq;
+    bool verifySequenceOfBST(vector<int> sequence) {
+        // 4, 8, 6, 12, 16, 14, 10
+        // 根据题目要求： 是二叉搜索树， 根节点是比左子树大， 比右子树小的。
+        // 因为： 后续遍历是： 左右根子树遍历顺序
+        // 第一遍： 找出10 是根节点， 然后将前面的数组，比10小的分成左子树， 比10大的就是右子树的内容
+        // 4, 8 ,6 是左子树， 12 ，16 ，14 是右子树
+        // 然后 6 是左子树的根节点，  14 是右子树的根节点，以此类推
+        // 4 是左节点， 8 是右节点， 等等。
+        seq = sequence;
+        int l = 0, r = seq.size() - 1;
+        return dfs(l , r);
+    }
+
+    bool dfs(int l, int r)
+    {
+        if(l >= r ) return true;
+        int k = l;    // 这里的k 应该是l 表示左边的
+        while( l < r && seq[k] < seq[r]) k++;   // 运行完了 k 应该是 右子树的第一个位置
+
+        for(int i= k; i<r; i++)
+        {
+            if(seq[i] <= seq[r])  return false;
+        }
+        return dfs(l, k-1) && dfs(k, r-1);     // 递归求， 只有左边和右边的同时满足这种情况， 此时的数组才算是符合题意的数组
+    }
+};
+```
+
 ## 二叉树中和为某一值的序列
+
+> 输入一棵二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+> 
+>从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210221201502270.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> re;
+    vector<int> path;
+
+    vector<vector<int>> findPath(TreeNode* root, int sum) {
+        // 思路： 此题只需要将二叉树所有的路径遍历一遍就行了， 如果满足该路径下的和 = sum ,记录下来.
+        // 小细节： 用减法，可以减少一个求和的变量
+        dfs(root, sum);
+        return re;
+    }
+
+    void dfs(TreeNode* root, int sum)
+    {
+        if(!root) return ;  // 节点为空，直接返回
+        sum -= root->val;
+        path.push_back(root->val);
+        if(!root->left && !root->right && !sum) re.push_back(path);   // 此时的节点左子树，右子树均没有，且sum已经减到0了， 就说明这条路径是所求的，加入re数组中
+        dfs(root->left,sum), dfs(root->right, sum);
+        path.pop_back();  // 当路径走完后，path里面的数据需要恢复原状
+    }
+};
+```
+
 ## 复杂链表的复制
-## 二叉搜索树与双向链表
-## 序列化二叉树
+
+> 请实现一个函数可以复制一个复杂链表。
+> 
+> 在复杂链表中，每个结点除了有一个指针指向下一个结点外，还有一个额外的指针指向链表中的任意结点或者null。
+
+
+```cpp
+/**
+ * Definition for singly-linked list with a random pointer.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next, *random;
+ *     ListNode(int x) : val(x), next(NULL), random(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    // 思路： 先遍历节点，将每个节点赋值一份，放入当前节点的后面
+    // 然后修改放入节点的random指针， 一定要对应好
+    // 最后将新建的赋值链表节点按照顺序输出出来
+
+    ListNode *copyRandomList(ListNode *head) {
+        for(auto p = head; p; )
+        {
+            auto newNode = new ListNode(p->val);
+            auto next = p->next; // 保存当前p节点的next节点
+            p->next = newNode;   // 将p节点的复制出来
+            newNode->next = next; // 将newNode 添加其中
+            p = next;  // 这里只能是将之前的p的next节点给p, 不能是p = p->next;
+        }
+        for(auto p = head; p; p = p->next->next)  // 因为每两个节点中间增加了一个节点，所以遍历的时候需要隔一个遍历
+        {
+            if(p->random)   // 是将复制的节点的random指针和之前节点的random指针弄成对应相等的
+                p->next->random = p->random->next;
+        }
+
+        auto dummy = new ListNode(-1);
+        auto cur = dummy;
+        for(auto p = head; p; p = p->next )   // 这几个next 指针需要好好分析
+        {
+            cur->next =  p->next;   // 为什么是p->next ,因为我们要的是新建的赋值节点的链表， 所以是next节点
+            cur = cur->next; 
+            //p = p->next;   // 这里会报错，这里的分离是将我们新建立的所有节点分离，这个代码是分离的原链表
+            p->next = p->next->next;  // 这个代码是分离的我们新建的赋值链表是符合要求的，上面的就是原链表，就不符合要求了
+        }
+        return dummy->next;
+    }
+};
+```
+
+## 二叉搜索树与双向链表（中等）
+
+> 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
+> 
+> 要求不能创建任何新的结点，只能调整树中结点指针的指向。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210221200813278.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* convert(TreeNode* root) {
+        if(!root) return nullptr;
+        auto lside = dfs(root);
+        return lside.first;   // 返回最小值
+    }
+
+    // 返回值是pair， first是表示左子树的最小值， second是表示右子树的最大值
+    pair<TreeNode*, TreeNode*> dfs(TreeNode* root)
+    { 
+        //  如果root的左子树和右子树 都没有， 则直接返回root，
+        if(!root->left && !root->right) return {root, root}; 
+        if(root->left && root->right)     //  如果root的左右子树都存在
+        {
+            auto lside = dfs(root->left), rside = dfs(root->right);
+            lside.second->right = root, root->left = lside.second;
+            root->right = rside.first, rside.first->left = root;
+            return {lside.first, rside.second};
+        }
+        else if(root->left)
+        {
+            auto lside = dfs(root->left);
+            lside.second->right = root, root->left = lside.second;
+            return {lside.first, root};
+        }
+        else if(root->right)
+        {
+            auto rside = dfs(root->right);
+            root->right = rside.first, rside.first->left = root;
+            return {root, rside.second};
+        }
+    }
+};
+```
+
+
+## 序列化二叉树（难）
+
+> 请实现两个函数，分别用来序列化和反序列化二叉树。
+> 
+> 您需要确保二叉树可以序列化为字符串，并且可以将此字符串反序列化为原始树结构。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210221195831481.png)
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        
+    }
+};
+```
+下面的代码是不考虑正负号的
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string re;
+        dfs_s(root, re);
+        return re;
+    }
+
+    void dfs_s(TreeNode* root, string& s)
+    {
+        if(!root) 
+        {
+            s += "null ";    // 这里的null加上空格
+            return;
+        }
+        s += to_string(root->val) + ' ';
+        dfs_s(root->left, s);
+        dfs_s(root->right, s);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int u = 0;
+        return dfs_d(data, u);
+    }
+
+    TreeNode* dfs_d(string data, int& u)
+    {
+        if(u == data.size()) return NULL;
+        int k = u;
+        while(data[k] != ' ') k ++;
+        if(data[u] == 'n')
+        {
+            u = k + 1;
+            return NULL;
+        }
+        int val = 0;
+        for(int i = u; i< k; i++) val = val * 10 + data[i] - '0';   // 将字符串按照位数转换成数字
+
+        u = k + 1;
+        auto root = new TreeNode(val);
+        root->left = dfs_d(data, u);
+        root->right = dfs_d(data, u);
+        return root;
+    }
+};
+```
+
+下面是考虑正负号的
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string re;
+        dfs_s(root, re);
+        return re;
+    }
+
+    void dfs_s(TreeNode* root, string& s)
+    {
+        if(!root) 
+        {
+            s += "null ";    // 这里的null加上空格
+            return;
+        }
+        s += to_string(root->val) + ' ';
+        dfs_s(root->left, s);
+        dfs_s(root->right, s);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int u = 0;
+        return dfs_d(data, u);
+    }
+
+    TreeNode* dfs_d(string data, int& u)
+    {
+        if(u == data.size()) return NULL;
+        int k = u;
+        while(data[k] != ' ') k ++;
+        if(data[u] == 'n')
+        {
+            u = k + 1;
+            return NULL;
+        }
+        int val = 0;
+        if(data[u] == '-')
+        {
+            for(int i = u + 1; i<k ;i ++) val = val * 10 + data[i] - '0';
+            val = -val;
+        }
+        else
+            for(int i = u; i< k; i++) val = val * 10 + data[i] - '0';   // 将字符串按照位数转换成数字
+
+        u = k + 1;
+        auto root = new TreeNode(val);
+        root->left = dfs_d(data, u);
+        root->right = dfs_d(data, u);
+        return root;
+    }
+};
+```
+
+
 ## 数字排列 （dfs + 二进制代替数字是否存在）
 
 > 这里是引用
