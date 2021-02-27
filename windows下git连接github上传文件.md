@@ -118,6 +118,23 @@ c. rebase 命令：  合并几次提交的内容，这个经常用到。
 d. git submoudle(需要第三方库) ： 在大项目管理中很有用的。
 ```
 
+## 在项目中功能开发git大致操作流程
+
+```cpp
+git checkout feature    // 切换分支
+
+git pull origin feature   // pull 最新的代码
+...   // 开发过程
+git rebase -i HEAD~(n)    // 合并之前的几次提交
+
+// 经过上面两步后，往往本地仓库和远端仓库内容不一致，其他开发人员也在修改
+git rebase develop     // 将develop最新代码pull 下来， 这个时候会有冲突，就需要解决冲突
+git push origin feature    // 解决冲突后push 远端
+git checkout develop     // 切换分支
+git merge feature      // 合并代码
+
+```
+
 
 根据上面的内容，遇到复杂的事情可以
 8. 参考git 中的分支管理办法，一步一步分给相关人员并发的进行开发。
