@@ -1,4 +1,4 @@
- ﻿1. 打开git  bash客户端
+﻿ ﻿1. 打开git  bash客户端
 ﻿2. 使用git bash 生成ssh key
 
 ```cpp
@@ -92,10 +92,39 @@ git pull origin master
 // 添加文件 或者修改
 git add xxx
 git commit -m "注释信息"   // 添加或者修改
-git push origin master 
-
-
+git push origin master   // origin 是远端， master 指的是当前分支
 ```
+
+## 添加的内容
+
+```cpp
+常用的命令（一套下来的）
+git clone, pull, add + commit + push, revert
+
+实际中遇到的案例： 
+当本地的工作目录和远端的仓库文件不一致是，需要提交时候：
+1. git pull origin master（feature）相应的分支
+2. 这时候会提醒pull下来的文件和当前本地仓库中的文件不一致
+3. 修改不一致的内容（直接在文件中删除不要的内容）（head表示当前仓库的指针，下面是当前仓库的内容；=====下面是远端仓库的内容，和哈希值）
+4. 修改完后需要git commit xxx   （这里需要测试下）
+5. 然后git push origin master   到远端
+
+
+另外在git中还经常遇到的几个命令：
+a. head命令 （HEAD^, HEAD^^,  表示距离当前提交的前面1个，前面2个），， 也可以这样写 HEAD~(n),后面的这种写法是可以写多级的，前面只能1-4级。
+b.  git bisect 命令  
+git bisect start A B   表示在的A版本和B版本之间锁定出现差错的版本，原理是二分查找。
+c. rebase 命令：  合并几次提交的内容，这个经常用到。
+d. git submoudle(需要第三方库) ： 在大项目管理中很有用的。
+```
+
+
+根据上面的内容，遇到复杂的事情可以
+8. 参考git 中的分支管理办法，一步一步分给相关人员并发的进行开发。
+9. 可以参考设计模式那样，将事情抽象出来，把主干流程去掉，构造数据模型。
+
+
+
 
 ## 错误提示
 1. 提示： `fatal: remote origin already exists.`
