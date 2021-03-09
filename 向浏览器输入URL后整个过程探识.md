@@ -1,11 +1,14 @@
 ﻿
 @[toc]
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210309212156580.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70#pic_center)
+
+> ip 地址 和mac 地址就好比一个是出生地（身份证） 和 现居地（门牌） 。因为mac 地址是和电脑绑定的不能改变， ip 的 容易改变的。（泛指： 修改mac指的是修改电脑中记录的既注册表中的记录）
+
 ## 1.  输入地址URL
 
-> 当我们开始在浏览器中输入网址的时候，浏览器其实就已经在**智能的匹配**可能得 url 了，他会从**历史记录，书签**等地方，找到已经输入的字符串可能对应的 url，然后给出智能提示，让你可以补全url地址。对于google的chrome 的浏览器，他甚至会直接从**缓存中**把网页展示出来，就是说，你还没有按下 enter，页面就出来了。
+> 当我们开始在浏览器中输入网址的时候，浏览器其实就已经在**智能的匹配**可能得 url 了，他会从**历史记录，书签**等地方，找到已经输入的字符串可能对应的 url，然后给出智能提示，让你可以补全url地址。这些就是直接从历史记录和缓存中拿到的数据。
 
 ## 2. 浏览器查找域名的 IP 地址
-
  1. 请求一旦发起，浏览器首先要做的事情就是解析这个域名，一般来说，浏览器会首**先查看本地硬盘的 hosts 文件**，看看其中有没有和这个域名对应的规则，如果有的话就直接使用 hosts 文件里面的 ip 地址。
  2. 如果在本地的 hosts 文件没有能够找到对应的 ip 地址，浏览器会发出一个 DNS请求到本地DNS服务器 。本地DNS服务器一般都是你的网络接入服务器商提供，比如中国电信，中国移动。
  3. 查询你输入的网址的DNS请求到达本地DNS服务器之后，本地DNS服务器会首先查询它的缓存记录，如果缓存中有此条记录，就可以直接返回结果，此过程是**递归的方式**进行查询。如果没有，本地DNS服务器还要向DNS根服务器进行查询。
@@ -17,7 +20,7 @@
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210207191630756.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
 
 
-## 3. 浏览器向 web 服务器发送一个 HTTP 请求
+## 3. 浏览器向 web 服务器发送一个 HTTP 请求（然后向下打包（如最上面的图））
 >拿到域名对应的IP地址之后，浏览器会以一个随机端口（1024<PORT<65535）向服务器的WEB程序（常用的有httpd,nginx等）80端口发起TCP的连接请求。这个连接请求到达服务器端后（这中间通过各种路由设备，局域网内除外），进入到网卡，然后是进入到内核的TCP/IP协议栈（用于识别该连接请求，解封包，一层一层的剥开），还有可能要经过Netfilter防火墙（属于内核的模块）的过滤，最终到达WEB程序，最终建立了TCP/IP的连接。　
 > TCP连接如图所示:
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210207192539721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
