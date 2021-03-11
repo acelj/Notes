@@ -153,9 +153,16 @@ git remote rm origin
 $ git remote add origin git@github.com:xxxx
 ```
 
-2. `failed to push some refs to`解决方法
+2. commit 后 push 遇到 `failed to push some refs to`解决方法
 
 ```cpp
+a. 原因，远程库根本地的代码文件不同步导致的。，这时只要将远程的库同步到本地即可：
+git pull --rebase origin master
+命令的意思是将远程的库合并到本地（可能有冲突，解决下）， --rebase 的作用是取消本地库中刚刚提交的commit ，并把他们接到更新后的本地仓库中
+
+b 可以使用下面命令，将commit 代码撤回，然后git pull 远程仓库在进行。
+git reset --soft HEAD^
+
 git pull origin master  // 同步一下
 ```
 
