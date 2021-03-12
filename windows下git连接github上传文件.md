@@ -1,5 +1,5 @@
-﻿ ﻿1. 打开git  bash客户端
-﻿2. 使用git bash 生成ssh key
+﻿   ﻿ ﻿1. 打开git  bash客户端
+ ﻿ ﻿2. 使用git bash 生成ssh key
 
 ```cpp
 $ cd ~  #保证当前路径在”~”下
@@ -167,4 +167,19 @@ git pull origin master  // 同步一下
 ```
 
 
+
+## 删除远程仓库的文件或者文件夹
+
+```cpp
+git pull origin master(从分支中拉下来)
+如果本地有和远程一样的可以不用执行上面一步
+
+dir 可以看看有哪些文件夹
+
+（cached不会把本地的flashview文件夹删除）
+git rm -r --cached xxx(文件或者文件夹)（文件夹加上前面的-r）（这里删除的是xxx文件或者文件夹）
+git commit -m '删除了xxx文件'
+git push -u origin master (这里是master 分支提交)
+
+```
 
