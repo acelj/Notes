@@ -14,8 +14,9 @@
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210121190955450.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
 2. 直接按照下面的先安装（navicat 直接点击下一步）
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210121191318297.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
-3.  然后点击上面的第一个软件进行激活，前面三个按照我下面的图中设置，点击Patch。
+3.  然后点击上面的第一个软件进行激活，前面三个按照我下面的图中设置，点击Patch， 然后在出现的弹框中选择安装的navicat.exe 文件。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210121191515837.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210320175001819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
 4. 点击后会出现下面这张图就代表成功，出现其他图都是代表这不成功！
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210121191637706.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NDg2MDI3,size_16,color_FFFFFF,t_70)
 5. 然后按照下面的图进行设置， 点击Generate，生成激活码。
