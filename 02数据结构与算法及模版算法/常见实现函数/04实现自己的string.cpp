@@ -22,6 +22,7 @@ int main()
 	return 0;
 }
 
+// 构造函数
 MyString::MyString(const char * str)
 {
 	if (str == nullptr)
@@ -42,8 +43,8 @@ MyString::MyString(const char * str)
 		4. 数组做sizeof的参数不退化，传递给strlen 就退化为指针。
 		*/
 		/************************************************************************/
-		m_size = strlen(str);   // strlen() 函数是   
-		m_data = new char[m_size];
+		m_size = strlen(str);  
+		m_data = new char[m_size + 1];
 		/************************************************************************/
 		/* 
 		1. strcpy 函数 实现字符串变量间的拷贝
@@ -54,6 +55,7 @@ MyString::MyString(const char * str)
 	}
 }
 
+// 拷贝构造函数实现
 MyString::MyString(const MyString &s)
 {
 	m_size = s.m_size;
