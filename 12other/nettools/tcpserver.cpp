@@ -1,12 +1,15 @@
-#include "TcpServer.h"
+ï»¿#include "TcpServer.h"
 
 #include <QTcpSocket>
 
-TcpServer::TcpServer(QObject* parent) : QTcpServer(parent)
+/*==============================================================*/
+TcpServer::TcpServer(QObject *parent): QTcpServer(parent)
 {
     connect(this, SIGNAL(newConnection()), this, SLOT(acceptNewClient()));
 }
 
+/*==============================================================*/
+//accept a new client and set the SIGNAL and SLOT
 void TcpServer::acceptNewClient()
 {
     int socketDescriptor;
@@ -14,56 +17,19 @@ void TcpServer::acceptNewClient()
     socketDescriptor  = tcpClientSocket->socketDescriptor();
 
     connect(tcpClientSocket, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
-
-    // system
     connect(tcpClientSocket, SIGNAL(disconnected()), tcpClientSocket, SLOT(deleteLater()));
-
     connect(tcpClientSocket, SIGNAL(readyRead()), this, SLOT(clientDataReceived()));
 
-    tcpClientSocketList.append(tcpClientSocket);
+    tcpClientSocketList.append(tcpClientSocket);   //add client
 
-    QString cli_port = QString::number(tcpClientSocket->peerPort());
-    QString cli_ip_port = tcpClientSocket->peerAddress().toString() + ":" + cli_port;
-    emit addClientLink(cli_ip_port, socketDescriptor);
+    //send the client address and descriptor to NetAssistWidget
+    QString peerPortStr = QString::number(tcpClientSocket->peerPort());
+    QString rdClientAddress_Port =  tcpClientSocket->peerAddress().toString() + ":" + peerPortStr;
+    emit addClientLink(rdClientAddress_Port, socketDescriptor);
 }
 
-void TcpServer::clientDataReceived()
-{
-    // data receive
-    for(int i = 0; i < tcpClientSocketList.count(); i++)
-    {
-        QTcpSocket *item = tcpClientSocketList.at(i);
-        while(item->bytesAvailable() > 0)
-        {
-            QByteArray datagram;
-            datagram.resize(item->bytesAvailable());
-            item->read(datagram.data(), datagram.size());
-			// ·¢ÉäÐÅºÅ£¬ µÚÈý¸ö²ÎÊýÊÇ¿Í»§¶ËµÄfd
-            emit updateTcpServer((char *)datagram.data(), datagram.size(), item->socketDescriptor());
-        }
-    }
-}
-
-void TcpServer::clientDisconnected()
-{
-    for(int i = 0; i < tcpClientSocketList.count(); i++)
-    {
-        QTcpSocket *item = tcpClientSocketList.at(i);
-        if(item->state() == 0)
-        {
-            QString peerPortStr = QString::number(item->peerPort());
-            QString rdClientAddress_Port = item->peerAddress().toString() + ":" + peerPortStr;
-            //send the client address and descriptor to NetAssistWidget
-            emit removeClientLink(rdClientAddress_Port, item->socketDescriptor());
-
-            tcpClientSocketList.removeAt(i); //remove Client
-
-            break;
-        }
-    }
-}
-
-
+/*==============================================================*/
+//send data to a client or all client
 void TcpServer::sendDataToClient(char *msg, int length, int socketDescriptor, int socketDescriptorEx)
 {
     for(int i = 0; i < tcpClientSocketList.count(); i++)
@@ -86,10 +52,43 @@ void TcpServer::sendDataToClient(char *msg, int length, int socketDescriptor, in
             }
         }
     }
+
 }
 
+/*==============================================================*/
+//send disconnect a valid client tcpsocket
+void TcpServer::clientDisconnected()
+{
+    for(int i = 0; i < tcpClientSocketList.count(); i++)
+    {
+        QTcpSocket *item = tcpClientSocketList.at(i);
+        if(item->state() == 0)
+        {
+            QString peerPortStr = QString::number(item->peerPort());
+            QString rdClientAddress_Port = item->peerAddress().toString() + ":" + peerPortStr;
+            //send the client address and descriptor to NetAssistWidget
+            emit removeClientLink(rdClientAddress_Port, item->socketDescriptor());
 
+            tcpClientSocketList.removeAt(i); //remove Client
 
+            break;
+        }
+    }
+}
 
-
-
+/*==============================================================*/
+//processe a client data
+void TcpServer::clientDataReceived()
+{
+    for(int i = 0; i < tcpClientSocketList.count(); i++)
+    {
+        QTcpSocket *item = tcpClientSocketList.at(i);
+        while(item->bytesAvailable() > 0)
+        {
+            QByteArray datagram;
+            datagram.resize(item->bytesAvailable());
+            item->read(datagram.data(), datagram.size());
+            emit updateTcpServer((char *)datagram.data(), datagram.size(), item->socketDescriptor());
+        }
+    }
+}
