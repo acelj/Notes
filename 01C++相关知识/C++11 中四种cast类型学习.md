@@ -1,5 +1,5 @@
 ﻿```cpp
-#include <iostream>
+##include <iostream>
 using namespace std;
 
 int main()
@@ -39,14 +39,14 @@ int main()
 	//class B :public A {};
 	//B b;
 	//A a = static_cast<A>(b);   // 把子类转换为父类对象   OK 
-
+	
 	//A a;
 	//B b = static_cast<A>(a);   // 这个是不行的
 	// c) void* 与其他类型指针之间的转换 ，  void* 万能指针
 	//int i = 10;
 	//int* p = &i;
 	//void* q = static_cast<void*>(p);   // int* 转换为void* 
-
+	
 	// 不可用于： 
 	// 一般不可以用 int* 转换成double* , float* 转 double*等
 
@@ -57,7 +57,7 @@ int main()
 	// Human 父类，  Man 子类  ， Women 未定义类
 	//Human* phuman = new Men;
 	//Men* p = (Men*)phuman;   // c语言风格， 强制类型转换 , 可能不成功， 这时就需要用dynamic_cast
-
+	
 	//Men* pmen = dynamic_cast<Men*>(phuman);
 	//if (pmen != nullptr)
 	//{
@@ -67,9 +67,9 @@ int main()
 	//{
 	//	cout << "转换失败" << endl;
 	//}
-
+	
 	// dynamic_cast : 这个可以对于引用， 如果失败，则系统会抛出一个std::bad_cast异常 try {}  ... catch () {}
-
+	
 	//Human* phumen = new Men;
 	//Human &q = *phumen;
 	//try
@@ -77,7 +77,7 @@ int main()
 	//	Men &menb = dynamic_cast<Men&>(q);   // 转换不成功, 程序流程直接进入catch ,如果成功，流程继续往下走
 	//	cout << "phumen 是Men 类型 " << endl;
 	//	menb.xxxx(); 
-
+	
 	//}
 	//catch (std::bad_cast)
 	//{
@@ -91,7 +91,7 @@ int main()
 	//		// 编译时就会进行类型转换
 	//const int ai = 100;
 	////int a = const_cast<int>(ai);    // ai 不是指针不是引用， 无法使用
-
+	
 	//const int* p = &ai;
 	//int* pi = const_cast<int*>(p);   // OK 将const 属性去掉
 	//*pi = 120;    // 这种行为不友好， 不同编译器可能改不了
@@ -101,14 +101,14 @@ int main()
 	// 4. reinterpret_cast; 编译时候 就会进行类型转换检查。  被认为是危险的类型转换，编译器都不报错
 		// reinterpret_cast：重新编译，（将操作数内容解释为另一种不同的类型【能把操作数的类型都转了】）
 	// 处理无关类型的转换 ： 也就是两个转换类型之间没有关系，就等于可以乱转，怎么转都行，很随意。
-
+	
 	// a) 将一个整型（地址）转换成指针，一种类型指针转换成另一种类型指针，按照转换后的内容重新解释内存中的内容。
 	// b) 也可以从一个指针类型转换成一个整型
 	int i = 10;
 	int* pi = &i;
 	int* p2 = reinterpret_cast<int*>(&i);
 	char* p3 = reinterpret_cast<char*>(pi);   // int* 转换成char*
-
+	
 	// 例子
 	int i = 10;
 	int* pi = &i;
@@ -123,7 +123,7 @@ int main()
 	// 3. 资料说 reinterpret_cast 是危险的， const_cast 意味着设计缺陷。
 	// 4. 不要在使用c语言中的类型转换，是在要用，用C++的。
 	// 5. 一般static_cast 和reinterpret_cast 就能够很好的取代c语言中的强制转换。
-
+	
 	// reinterpret_cast 只要好好用， 合乎规则用，其实很好用的。
 
 
@@ -131,3 +131,5 @@ int main()
 }
 ```
 
+
+```
