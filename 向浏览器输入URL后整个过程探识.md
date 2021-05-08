@@ -220,3 +220,6 @@ Content-Length: 122
 >这些地址都要经历一个和HTML读取类似的过程。所以浏览器会在DNS中查找这些域名，发送请求，重定向等等…
 
 > 不像动态页面，静态文件会允许浏览器对其进行缓存。有的文件可能会不需要与服务器通讯，而从缓存中直接读取，或者可以放到CDN中
+
+参考博客：
+[https://blog.csdn.net/u014465934/article/details/82967641](https://blog.csdn.net/u014465934/article/details/82967641)
