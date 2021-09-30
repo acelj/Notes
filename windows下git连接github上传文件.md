@@ -1,5 +1,5 @@
-﻿   ﻿ ﻿1. 打开git  bash客户端
- ﻿ ﻿2. 使用git bash 生成ssh key
+       ﻿   ﻿ ﻿1. 打开git  bash客户端
+    ﻿   ﻿ ﻿2. 使用git bash 生成ssh key
 
 ```cpp
 $ cd ~  #保证当前路径在”~”下
@@ -182,4 +182,35 @@ git commit -m '删除了xxx文件'
 git push -u origin master (这里是master 分支提交)
 
 ```
+
+
+
+## Git出现|MERGING解决
+
+```cpp
+git reset --hard head
+```
+
+
+
+## 合并分支出现refusing to merge unrelated histories 
+
+> 在操作命令后面加上 --allow-unrelated-histories 
+
+
+
+例如：
+
+```bash
+git merge dev --allow-unrelated-histories 
+或者
+git pull origin master --allow-unrelated-histories
+
+// 合并的过程
+1、 可以下pull下来的
+2、 遇到编辑选项，可以在出来的内容加上 commit 注释，vim的命令， 写上一点东西
+3、 在提交  git push origin master（你想提交的分支）
+```
+
+
 
