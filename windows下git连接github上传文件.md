@@ -212,5 +212,12 @@ git pull origin master --allow-unrelated-histories
 3、 在提交  git push origin master（你想提交的分支）
 ```
 
+```cpp
+git clone xxx
+git status 没修改
+git status 有修改
+git add .
+git commit -m "message"
+git psuh // 前提是之前就配置好的
 
 
