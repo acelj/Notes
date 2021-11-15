@@ -1,0 +1,8 @@
+1636958165 ALERT jpliu : Alert info
+1636958165 WARN jpliu : This will be a logged warning
+1636958165 CRIT jpliu : Importance depends on context
+1636958165 CRIT jpliu : This will show up << as 1 critical message
+[2021-11-15 14:48:45,800] ALERT jpliu : Alert info
+[2021-11-15 14:48:45,801] WARN jpliu : This will be a logged warning
+[2021-11-15 14:48:45,801] CRIT jpliu : Importance depends on context
+[2021-11-15 14:48:45,801] CRIT jpliu : This will show up << as 1 critical message
